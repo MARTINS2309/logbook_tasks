@@ -25,12 +25,12 @@ const sampleProducts= {
 
 function getProducts(req, res) {
     res.json(sampleProducts)
-    console.log('GET products')
+    console.log('GET all products')
 }
 
 function getProductID(req, res) {
     const id = req.params.id
-    const product = sampleProducts.data.find(product => product.id === id)
+    let product = sampleProducts.data.find(product => product.id == id)
     res.json(product)
     console.log('GET product by id - ' + req.params.id)
 }

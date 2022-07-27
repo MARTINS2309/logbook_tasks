@@ -44,7 +44,7 @@ function getStockEvents(req, res) {
 
 function getStockEventID(req, res) {
     const id = req.params.id
-    const stockEvent = sampleStockEvents.data.find(stockEvent => stockEvent.id === id)
+    const stockEvent = sampleStockEvents.data.find(stockEvent => stockEvent.id == id)
     res.json(stockEvent)
     console.log('GET stock event by id - ' + req.params.id)
 }
