@@ -49,7 +49,7 @@ function getStockEvents(req, res) {
 
 function getStockEventID(req, res) {
   const id = req.params.id;
-  const stockEvent = sampleStockEvents.data.find(
+  const stockEvent = sampleStockEvents.find(
     (stockEvent) => stockEvent.id == id
   );
   res.json(stockEvent);

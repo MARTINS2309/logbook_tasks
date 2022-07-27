@@ -34,7 +34,7 @@ function getProducts(req, res) {
 
 function getProductID(req, res) {
   const id = req.params.id;
-  let product = sampleProducts.data.find((product) => product.id == id);
+  let product = sampleProducts.find((product) => product.id == id);
   res.json(product);
   console.log("GET product by id - " + req.params.id);
 }
