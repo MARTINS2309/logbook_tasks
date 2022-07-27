@@ -2,9 +2,16 @@ import { useEffect, useState } from "react";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 
-const TableT = ({columns, data, caption, handleShowUpdate, handleShowDelete , handleShowCreate }) => {
+const TableT = ({
+  columns,
+  data,
+  caption,
+  handleShowUpdate,
+  handleShowDelete,
+  handleShowCreate,
+}) => {
   const [tableData, setTableData] = useState(data);
-  
+
   useEffect(() => {
     setTableData(data);
   }, [data]);
@@ -27,11 +34,11 @@ const TableT = ({columns, data, caption, handleShowUpdate, handleShowDelete , ha
   return (
     <div className="table_container">
       <table className="table">
-        <caption>
-            {caption}s Table
-        </caption>
-        <TableHead {...{ columns, handleSorting, handleShowCreate , caption }} />
-        <TableBody {...{ columns, tableData, handleShowDelete, handleShowUpdate }} />
+        <caption>{caption}s Table</caption>
+        <TableHead {...{ columns, handleSorting, handleShowCreate, caption }} />
+        <TableBody
+          {...{ columns, tableData, handleShowDelete, handleShowUpdate }}
+        />
       </table>
     </div>
   );
