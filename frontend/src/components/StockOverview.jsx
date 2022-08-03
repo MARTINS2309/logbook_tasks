@@ -49,8 +49,8 @@ export default function StockOverview() {
   }, [refresh]);
 
   return (
-    <div>
-      <div className="StockRefresh">
+    <div className="StockOverview">
+      <div className="Description">
         <h1>Stock Overview</h1>
         <p>Press this button to load data from the server</p>
         <button disabled={refresh} onClick={() => setRefresh(true)}>
