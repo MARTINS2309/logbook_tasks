@@ -4,7 +4,6 @@ import TableHead from "./TableHead";
 
 const TableT = ({ columns, data, caption }) => {
   const [tableData, setTableData] = useState(data);
-
   useEffect(() => {
     setTableData(data);
   }, [data]);
