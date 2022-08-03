@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { StockDetail } from "./StockDetail";
 
-export function StockOverview() {
+export default function StockOverview() {
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -28,18 +28,23 @@ export function StockOverview() {
   const fetchData = async ({ setData, url }) => {
     const res = await fetch(url);
     setData(await res.json());
+    await setRefresh(false);
   };
 
   useEffect(() => {
     if (refresh) {
-      fetchData({
-        setData: setProducts,
-        url: "http://localhost:3001/products",
-      });
-      fetchData({
-        setData: setStockEvents,
-        url: "http://localhost:3001/stockevents",
-      });
+      try {
+        fetchData({
+          setData: setProducts,
+          url: "http://localhost:3001/products",
+        });
+        fetchData({
+          setData: setStockEvents,
+          url: "http://localhost:3001/stockevents",
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
   }, [refresh]);
 
@@ -47,8 +52,10 @@ export function StockOverview() {
     <div>
       <div className="StockRefresh">
         <h1>Stock Overview</h1>
-        <p>Press this button to load data from server</p>
-        <button onClick={() => setRefresh(!refresh)}>Refresh</button>
+        <p>Press this button to load data from the server</p>
+        <button disabled={refresh} onClick={() => setRefresh(true)}>
+          {refresh ? "Loading..." : "Refresh"}
+        </button>
       </div>
       <div className="ProductDisplay">
         {products.map((product) => {

@@ -41,8 +41,10 @@ const sampleStockEvents = [
 ];
 
 function getStockEvents(req, res) {
-  res.json(sampleStockEvents);
-  console.log("GET stock events");
+  setTimeout(() => {
+    res.json(sampleStockEvents);
+    console.log("GET stock events");
+  }, 1000);
 }
 
 function getStockEventID(req, res) {

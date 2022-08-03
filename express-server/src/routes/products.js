@@ -26,8 +26,10 @@ const sampleProducts = [
 ];
 
 function getProducts(req, res) {
-  res.json(sampleProducts);
-  console.log("GET all products");
+  setTimeout(() => {
+    res.json(sampleProducts);
+    console.log("GET all products");
+  }, 1000);
 }
 
 function getProductID(req, res) {
