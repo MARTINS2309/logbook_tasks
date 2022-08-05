@@ -11,24 +11,30 @@ describe("StockOverview", () => {
       container.getElementsByClassName("StockOverview")[0];
     expect(stockOverviewDiv).toBeInTheDocument();
   });
-  it("contains the Heading", () => {
+
+  it("contains a Description div", () => {
+    const { container } = render(<StockOverview />);
+    const descriptionDiv = container.getElementsByClassName("Description")[0];
+    expect(descriptionDiv).toBeInTheDocument();
+  });
+
+  it("contains a Heading", () => {
     render(<StockOverview />);
-    const heading = screen.getByText(/Stock Overview/i);
+    const heading = screen.getByRole("heading");
     expect(heading).toBeInTheDocument();
+    expect(heading).toHaveTextContent("Stock Overview");
   });
   it("contains a description paragraph", () => {
     const { container } = render(<StockOverview />);
     const paragraphs = container.getElementsByTagName("p");
     expect(paragraphs).toHaveLength(1);
+    expect(paragraphs[0].textContent).toMatch(/Press this button/i);
   });
-  it("contains a refresh button", () => {
+  it("contains a Load Data button", () => {
     render(<StockOverview />);
-    const refreshButton = screen.getByText(/Refresh/i);
+    const refreshButton = screen.getByRole("button");
+
     expect(refreshButton).toBeInTheDocument();
-  });
-  it("contains a table", () => {
-    render(<StockOverview />);
-    const table = screen.getByRole("table");
-    expect(table).toBeInTheDocument();
+    expect(refreshButton).toHaveTextContent(/Load Data/i);
   });
 });

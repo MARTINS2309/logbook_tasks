@@ -4,16 +4,19 @@ import "./App.css";
 import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import StockOverview from "./components/StockOverview";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Navigation />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/stockoverview" element={<StockOverview />} />
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/stockoverview" element={<StockOverview />} />
+          </Routes>
+        </ErrorBoundary>
       </div>
     </Router>
   );

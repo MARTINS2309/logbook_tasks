@@ -34,7 +34,7 @@
   max-width: 1200px;
 }
 
-.ProductDisplay__product {
+.PD__product {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,6 +42,22 @@
   margin: 0 auto;
   padding: 1rem;
   border-top: 1px solid #ccc;
+}
+
+.ErrorBoundary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+  justify-content: center;
+}
+
+.ErrorBoundary > * {
+  padding: 0.2rem;
+  margin: 1rem;
 }
 
 @keyframes App-logo-spin {

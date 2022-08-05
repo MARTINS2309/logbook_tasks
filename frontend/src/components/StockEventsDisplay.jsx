@@ -1,5 +1,5 @@
 import TableT from "./Table/TableT";
-export function StockDetail({ relEvents }) {
+export default function StockEventsDisplay({ relEvents }) {
   const columnsStockEvent = [
     { label: "id", accessor: "id", sortable: true },
     { label: "Name", accessor: "name", sortable: true },
@@ -10,7 +10,7 @@ export function StockDetail({ relEvents }) {
   ];
 
   return (
-    <div className="TableT">
+    <div className="StockEventsDisplay">
       <TableT
         columns={columnsStockEvent}
         data={relEvents}

@@ -1,83 +1,100 @@
 import { useState, useEffect } from "react";
-import { StockDetail } from "./StockDetail";
+import Button from "react-bootstrap/Button";
+import ErrorDisplay from "./ErrorDisplay";
+import Pjson from "../data/products.json";
+import SEjson from "../data/stockEvents.json";
+import ProductsDisplay from "./ProductsDisplay";
 
 export default function StockOverview() {
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "Product 1",
-      createdAt: "2022-02-18T10:47:49.151Z",
-      updatedAt: "2022-02-18T10:58:40.866Z",
-      publishedAt: "2022-02-18T10:58:40.865Z",
-    },
-  ]);
-  const [stockEvents, setStockEvents] = useState([
-    {
-      id: 1,
-      name: "Stock Event 1",
-      product_id: 1,
-      quantity: 1000,
-      createdAt: "2022-02-18T10:47:49.151Z",
-      updatedAt: "2022-02-18T10:58:40.866Z",
-      publishedAt: "2022-02-18T10:58:40.865Z",
-    },
-  ]);
+  const [products, setProducts] = useState([]);
+  const [stockEvents, setStockEvents] = useState([]);
 
-  const [refresh, setRefresh] = useState(false);
+  const [error, setError] = useState(null);
 
-  const fetchData = async ({ setData, url }) => {
-    const res = await fetch(url);
-    setData(await res.json());
-    await setRefresh(false);
+  const [loading, setLoading] = useState(false);
+  const [btnMsg, setBtnMsg] = useState("Load data");
+  const [btnVar, setBtnVar] = useState("outline-primary");
+
+  const fetchData = async ({ handleSuccess, handleFail, url }) => {
+    fetch(url)
+      .then((res) => {
+        handleSuccess(res);
+      })
+      .catch((error) => {
+        handleFail(error);
+      });
+  };
+
+  const handleSuccessProducts = async (res) => {
+    const data = await res.json();
+    setProducts(data);
+    setBtnMsg("Data loaded");
+    setBtnVar("success");
+    setError(null);
+    setLoading(false);
+  };
+  const handleSuccessStockEvents = async (res) => {
+    const data = await res.json();
+    setStockEvents(data);
+    setBtnMsg("Data loaded");
+    setError(null);
+    setLoading(false);
+  };
+
+  const handleFail = (error) => {
+    console.error("fetchData error:", error);
+    setBtnMsg("Load data");
+    setBtnVar("outline-danger");
+    setError(error);
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (refresh) {
-      try {
-        fetchData({
-          setData: setProducts,
-          url: "http://localhost:3001/products",
-        });
-        fetchData({
-          setData: setStockEvents,
-          url: "http://localhost:3001/stockevents",
-        });
-      } catch (err) {
-        console.log(err);
-      }
+    if (loading) {
+      setProducts([]);
+      setStockEvents([]);
+      fetchData({
+        handleSuccess: handleSuccessProducts,
+        handleFail: handleFail,
+        url: "http://localhost:3001/products",
+      });
+      fetchData({
+        handleSuccess: handleSuccessStockEvents,
+        handleFail: handleFail,
+        url: "http://localhost:3001/stockevents",
+      });
     }
-  }, [refresh]);
+  }, [loading]);
+
+  const handleButtonClick = () => {
+    setLoading(true);
+    setBtnVar("outline-primary");
+    setBtnMsg("Loading...");
+  };
+
+  const handleDemo = () => {
+    setProducts(Pjson);
+    setStockEvents(SEjson);
+    setBtnMsg("Data loaded");
+    setBtnVar("success");
+    setError(null);
+    setLoading(false);
+  };
 
   return (
     <div className="StockOverview">
       <div className="Description">
         <h1>Stock Overview</h1>
-        <p>Press this button to load data from the server</p>
-        <button disabled={refresh} onClick={() => setRefresh(true)}>
-          {refresh ? "Loading..." : "Refresh"}
-        </button>
+        <p>Press this button to get data from the server</p>
+        <Button variant={btnVar} disabled={loading} onClick={handleButtonClick}>
+          {btnMsg}
+        </Button>
       </div>
-      <div className="ProductDisplay">
-        {products.map((product) => {
-          const { id } = product;
-          const relevantStockEvents = stockEvents.filter(
-            (stockEvent) => stockEvent.product_id === id
-          );
-          const totalQuantity = relevantStockEvents.reduce(
-            (total, stockEvent) => total + stockEvent.quantity,
-            0
-          );
-
-          return (
-            <div className="ProductDisplay__product" key={id}>
-              <h1>{product.name}</h1>
-              <p>Total quantity: {totalQuantity}</p>
-
-              <StockDetail relEvents={relevantStockEvents} />
-            </div>
-          );
-        })}
-      </div>
+      {error ? (
+        <ErrorDisplay error={error} demo={handleDemo} />
+      ) : (
+        <ProductsDisplay products={products} stockEvents={stockEvents} />
+      )}
     </div>
   );
 }
