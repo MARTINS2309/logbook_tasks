@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "react-bootstrap/Button";
 
 class ErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
@@ -40,12 +41,13 @@ class ErrorBoundary extends React.Component {
           <h1>An Error Occurred</h1>
           <h2>{errorName}</h2>
           <p>{errorMessage}</p>
-          <button
+          <Button
             type="button"
+            variant="outline-primary"
             onClick={() => this.setState({ hasError: false, error: null })}
           >
             Try again?
-          </button>
+          </Button>
         </div>
       );
     }

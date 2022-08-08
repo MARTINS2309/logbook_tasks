@@ -43,7 +43,7 @@ const sampleStockEvents = [
 function getStockEvents(req, res) {
   setTimeout(() => {
     res.json(sampleStockEvents);
-    console.log("GET stock events");
+    console.log("GET all stock events");
   }, 1000);
 }
 

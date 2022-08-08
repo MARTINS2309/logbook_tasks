@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 
-const TableT = ({ columns, data, caption }) => {
+const TableT = ({ columns, data }) => {
   const [tableData, setTableData] = useState(data);
   useEffect(() => {
     setTableData(data);
@@ -26,8 +26,7 @@ const TableT = ({ columns, data, caption }) => {
   return (
     <div className="table_container">
       <table className="table">
-        <caption>{caption}s Table</caption>
-        <TableHead {...{ columns, handleSorting, caption }} />
+        <TableHead {...{ columns, handleSorting }} />
         <TableBody {...{ columns, tableData }} />
       </table>
     </div>

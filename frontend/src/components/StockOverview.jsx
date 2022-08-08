@@ -15,17 +15,20 @@ export default function StockOverview() {
   const [btnMsg, setBtnMsg] = useState("Load data");
   const [btnVar, setBtnVar] = useState("outline-primary");
 
-  const fetchData = async ({ handleSuccess, handleFail, url }) => {
+  const fetchData = async ({ handleResult, handleError, url }) => {
     fetch(url)
       .then((res) => {
-        handleSuccess(res);
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+        handleResult(res);
       })
       .catch((error) => {
-        handleFail(error);
+        handleError(error);
       });
   };
 
-  const handleSuccessProducts = async (res) => {
+  const handleResultProducts = async (res) => {
     const data = await res.json();
     setProducts(data);
     setBtnMsg("Data loaded");
@@ -33,7 +36,7 @@ export default function StockOverview() {
     setError(null);
     setLoading(false);
   };
-  const handleSuccessStockEvents = async (res) => {
+  const handleResultStockEvents = async (res) => {
     const data = await res.json();
     setStockEvents(data);
     setBtnMsg("Data loaded");
@@ -41,7 +44,7 @@ export default function StockOverview() {
     setLoading(false);
   };
 
-  const handleFail = (error) => {
+  const handleError = (error) => {
     console.error("fetchData error:", error);
     setBtnMsg("Load data");
     setBtnVar("outline-danger");
@@ -54,14 +57,14 @@ export default function StockOverview() {
       setProducts([]);
       setStockEvents([]);
       fetchData({
-        handleSuccess: handleSuccessProducts,
-        handleFail: handleFail,
-        url: "http://localhost:3001/products",
+        handleResult: handleResultProducts,
+        handleError: handleError,
+        url: "/products",
       });
       fetchData({
-        handleSuccess: handleSuccessStockEvents,
-        handleFail: handleFail,
-        url: "http://localhost:3001/stockevents",
+        handleResult: handleResultStockEvents,
+        handleError: handleError,
+        url: "/stockevents",
       });
     }
   }, [loading]);

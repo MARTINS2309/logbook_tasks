@@ -11,11 +11,7 @@ export default function StockEventsDisplay({ relEvents }) {
 
   return (
     <div className="StockEventsDisplay">
-      <TableT
-        columns={columnsStockEvent}
-        data={relEvents}
-        caption="Stock Event"
-      />
+      <TableT columns={columnsStockEvent} data={relEvents} />
     </div>
   );
 }
